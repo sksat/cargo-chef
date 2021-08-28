@@ -76,7 +76,7 @@ jobs:
           CHEF_IMAGE=$DOCKER_REPO:$CHEF_PACKAGE_VERSION-rust-$RUST_IMAGE_TAG
           echo ::set-output name=chef_image::$CHEF_IMAGE
 
-          docker build -t $CHEF_IMAGE --build-arg=BASE_IMAGE=rust:$RUST_IMAGE_TAG ./docker
+          docker build -t $CHEF_IMAGE --build-arg=BASE_IMAGE=rust:$RUST_IMAGE_TAG --cache-from=type=gha ./docker
       -
         name: Push
         if: github.event_name == 'push'
