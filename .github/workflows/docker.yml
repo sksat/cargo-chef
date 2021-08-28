@@ -56,7 +56,7 @@ jobs:
         # Get package version from Cargo.toml
         name: Get package version
         id: package_version
-        run: |-
+        run: |
           VER=$(grep -E '^version = ' Cargo.toml | cut -d' ' -f3 | cut -d'"' -f2)
           echo ::set-output name=result::$VER
       -
@@ -76,7 +76,7 @@ jobs:
           CHEF_IMAGE=$DOCKER_REPO:$CHEF_PACKAGE_VERSION-rust-$RUST_IMAGE_TAG
           echo ::set-output name=chef_image::$CHEF_IMAGE
 
-          docker build -t $CHEF_IMAGE --build-arg=BASE_IMAGE=rust:$RUST_IMAGE_TAG --cache-from=type=gha ./docker
+          docker build -t $CHEF_IMAGE --build-arg=BASE_IMAGE=rust:$RUST_IMAGE_TAG --cache-from=type=registry,ref=$DOCKERHUB_USERNAME/cargo-chef ./docker
       -
         name: Push
         if: github.event_name == 'push'
